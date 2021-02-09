@@ -1,6 +1,6 @@
 <?php
 
-$string['pluginname'] = 'Hubcourse Ranking';
+$string['pluginname'] = 'Hub Course Ranking';
 
 $string['hubcourseranking:addinstance'] = 'Create a new instance';
 $string['hubcourseranking:myaddinstance'] = 'Create a new instance (my page)';

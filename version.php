@@ -17,7 +17,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_hubcourseranking';
-$plugin->version = 2020010802;
+$plugin->version = 2020020800;
 $plugin->requires = 2017051504;
 $plugin->depedencies = [
   'block_hubcourseinfo' => 2018070500

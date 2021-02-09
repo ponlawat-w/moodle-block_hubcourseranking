@@ -60,6 +60,9 @@ function block_hubcourseranking_gethubcourselist($config, $full = false) {
   }
 
   $limit = $full ? $config->maxshow : $config->minshow;
+  if (!is_numeric($limit)) {
+    $limit = 10;
+  }
 
   if ($config->ismanual) {
     return block_hubcourseranking_getmanualhubcourses($config->manual, $limit);
@@ -74,8 +77,8 @@ function block_hubcourseranking_gethubcourselist($config, $full = false) {
   if ($config->by == BLOCK_HUBCOURSERANKING_RANKBY_RECENT) {
     $records = $DB->get_records_sql(
       'SELECT hc.*, c.fullname FROM {block_hubcourses} hc JOIN {course} c ON hc.courseid = c.id '
-      . 'WHERE hc.timecreated > ? ORDER BY hc.timecreated DESC LIMIT ?'
-    , [$time, $limit]);
+      . 'WHERE hc.timecreated > ? ORDER BY hc.timecreated DESC LIMIT ' . $limit
+    , [$time]);
     foreach ($records as $record) {
       $record->timecreatedstr = userdate($record->timecreated, get_string('strftimedate'));
     }
@@ -89,24 +92,24 @@ function block_hubcourseranking_gethubcourselist($config, $full = false) {
       . ' (SELECT id FROM {block_hubcourse_versions} hv WHERE hv.hubcourseid = hc.id)'
       . ' AND hd.timedownloaded > ?'
       . ') downloads FROM {block_hubcourses} hc JOIN {course} c ON hc.courseid = c.id '
-      . ' ORDER BY downloads DESC LIMIT ?'
-    , [$time, $limit]);
+      . ' ORDER BY downloads DESC LIMIT ' . $limit
+    , [$time]);
   } else if ($config->by == BLOCK_HUBCOURSERANKING_RANKBY_REVIEWS) {
     return $DB->get_records_sql(
       'SELECT hc.*, c.fullname, ('
       . 'SELECT COUNT(*) FROM {block_hubcourse_reviews} hr WHERE hr.hubcourseid = hc.id'
       . ' AND hr.timecreated > ?'
       . ') reviews FROM {block_hubcourses} hc JOIN {course} c ON hc.courseid = c.id'
-      . ' ORDER BY reviews DESC LIMIT ?'
-    , [$time, $limit]);
+      . ' ORDER BY reviews DESC LIMIT ' . $limit
+    , [$time]);
   } else if ($config->by == BLOCK_HUBCOURSERANKING_RANKBY_RATED) {
     $records = $DB->get_records_sql(
       'SELECT hc.*, c.fullname, ('
       . 'SELECT COALESCE(AVG(rate), 0) FROM {block_hubcourse_reviews} hr WHERE hr.hubcourseid = hc.id'
       . ' AND hr.timecreated > ?'
       . ') rated FROM {block_hubcourses} hc JOIN {course} c ON hc.courseid = c.id'
-      . ' ORDER BY rated DESC LIMIT ?'
-    , [$time, $limit]);
+      . ' ORDER BY rated DESC LIMIT ' . $limit
+    , [$time]);
     foreach ($records as $record) {
       $record->rated = number_format($record->rated, 2);
     }
