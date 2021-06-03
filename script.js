@@ -75,7 +75,7 @@ if (!BLOCK_HUBCOURSERANKING) {
           
           const $div = $('<div>').html($table);
 
-          if (loadDataFunc) {
+          if (response.more) {
             const $btn = $('<button>')
               .html(M.str.block_hubcourseranking.loadmore)
               .addClass('btn btn-secondary w-100')
@@ -94,13 +94,16 @@ if (!BLOCK_HUBCOURSERANKING) {
         const $bodys = $('.block-hubcourseranking-body');
         $.each($bodys, (_, body) => {
           const $body = $(body);
+          $body.attr('data-page', 0);
           const id = $body.attr('data-id');
 
-          const loadData = async(full = false) => {
-            const url = `${M.cfg.wwwroot}/blocks/hubcourseranking/api.php?id=${id}${full ? '&full=1' : ''}`;
+          const loadData = async() => {
+            const page = parseInt($body.attr('data-page')) + 1;
+            const url = `${M.cfg.wwwroot}/blocks/hubcourseranking/api.php?id=${id}&page=${page}`;
+            $body.attr('data-page', page);
 
             const response = await $.get(url);
-            renderTable($body, response, full ? null : loadData);
+            renderTable($body, response, loadData);
           };
 
           const init = () => {

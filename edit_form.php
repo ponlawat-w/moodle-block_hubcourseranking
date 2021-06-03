@@ -12,8 +12,7 @@ class block_hubcourseranking_edit_form extends block_edit_form {
     'config_by' => BLOCK_HUBCOURSERANKING_RANKBY_RECENT,
     'config_duration' => BLOCK_HUBCOURSERANKING_DURATION_MONTH,
     'config_manual' => '',
-    'config_minshow' => 5,
-    'config_maxshow' => 10
+    'config_displaycount' => 5
   ];
   
   protected function specific_definition($mform) {
@@ -62,10 +61,8 @@ class block_hubcourseranking_edit_form extends block_edit_form {
       $mform->addElement('header', 'displayheader', get_string('displayheader', 'block_hubcourseranking'));
       $mform->setExpanded('displayheader', true);
       $options = block_hubcourseranking_getshowoptions();
-      $mform->addElement('select', 'config_minshow', get_string('minshow', 'block_hubcourseranking'), $options);
-      $mform->settype('config_minshow', PARAM_INT);
-      $mform->addElement('select', 'config_maxshow', get_string('maxshow', 'block_hubcourseranking'), $options);
-      $mform->settype('config_maxshow', PARAM_INT);
+      $mform->addElement('select', 'config_displaycount', get_string('displaycount', 'block_hubcourseranking'), $options);
+      $mform->settype('config_displaycount', PARAM_INT);
 
       foreach (self::$defaultvalues as $key => $defaultvalue) {
         $mform->setDefault($key,

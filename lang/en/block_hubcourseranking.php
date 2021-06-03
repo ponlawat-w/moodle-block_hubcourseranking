@@ -24,8 +24,7 @@ $string['rankduration_month'] = 'One month (last 30 days)';
 $string['rankduration_year'] = 'One year (last 365 days)';
 $string['manualranking'] = 'Manually Ranking';
 $string['displayheader'] = 'Display Settings';
-$string['minshow'] = 'Minimum Shown Records<br><small>(before clicking "view more")</small>';
-$string['maxshow'] = 'Maximum Shown Records<br><small>(after clicking "view more")</small>';
+$string['displaycount'] = 'Number of records shown';
 
 $string['order'] = 'Rank Order';
 $string['coursename'] = 'Course Name';
